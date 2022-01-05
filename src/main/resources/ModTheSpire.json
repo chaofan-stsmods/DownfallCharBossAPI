@@ -1,0 +1,12 @@
+{
+  "modid": "${project.artifactId}",
+  "name": "${project.name}",
+  "author_list": ["Chaofan"],
+  "credits": "\nBaseMod, ModTheSpire: Kiooeht and other contributors.\nDownfall: Michael Mayhem and other contributors.",
+  "description": "${project.description}",
+  "version": "${project.version}",
+  "sts_version": "${SlayTheSpire.version}",
+  "mts_version": "${ModTheSpire.version}",
+  "dependencies": ["basemod", "downfall"],
+  "update_json": ""
+}
