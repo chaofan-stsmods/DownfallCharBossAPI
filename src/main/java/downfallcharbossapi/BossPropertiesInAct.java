@@ -14,6 +14,13 @@ public class BossPropertiesInAct {
             String bossImageOutline,
             Consumer<NeowBossFinal> neowGainMinionPowersCallback
     ) {
+        if (bossImage == null) {
+            throw new IllegalArgumentException("bossImage is null");
+        }
+        if (bossImageOutline == null) {
+            throw new IllegalArgumentException("bossImageOutline is null");
+        }
+
         this.bossImage = bossImage;
         this.bossImageOutline = bossImageOutline;
         this.neowGainMinionPowersCallback = neowGainMinionPowersCallback;

@@ -17,7 +17,6 @@ import downfall.downfallMod;
 import downfall.events.Colosseum_Evil;
 import downfall.monsters.NeowBossFinal;
 import downfallcharbossapi.BossPropertiesInAct;
-import downfallcharbossapi.BossProperties;
 import downfallcharbossapi.DownfallCharBossApi;
 import javassist.CannotCompileException;
 import javassist.CtBehavior;
@@ -34,6 +33,16 @@ public class InsertCharBossPatches {
     public static class ResetBossListPatch {
         public static void Postfix() {
             downfallMod.possEncounterList.addAll(DownfallCharBossApi.getAllBossIds());
+            downfallMod.possEncounterList.removeAll(DownfallCharBossApi.getRemovedBossIds());
+
+            int bossCount = downfallMod.possEncounterList.size();
+            DownfallCharBossApi.logger.info("Patched downfallMod.resetBossList. BossCount = {}.", bossCount);
+            if (bossCount < 4) {
+                throw new AssertionError("Boss count is less than 4. It's not enough for Downfall." +
+                        "\nChar Boss Modify Records:\n" + String.join("\n", DownfallCharBossApi.getBossModifyRecords()) +
+                        "\nBoss List:\n" + String.join("\n", downfallMod.possEncounterList.toArray(new String[0]))
+                        );
+            }
         }
     }
 
@@ -134,10 +143,7 @@ public class InsertCharBossPatches {
                     ___num == 2 ? downfallMod.Act2BossFaced : downfallMod.Act3BossFaced
                     );
 
-            BossPropertiesInAct bossPropertiesInAct = DownfallCharBossApi.getBossPropertiesInAct(bossId, ___num);
-            if (bossPropertiesInAct != null && bossPropertiesInAct.neowGainMinionPowersCallback != null) {
-                bossPropertiesInAct.neowGainMinionPowersCallback.accept(___owner);
-            }
+            DownfallCharBossApi.triggerNeowBossGainMinionPowers(bossId, ___owner, ___num);
         }
     }
 
@@ -145,11 +151,9 @@ public class InsertCharBossPatches {
     public static class NeowBossFinalTakeTurnPatch {
         @SpireInsertPatch(locator = Locator.class)
         public static void insertTakeTurnActions(NeowBossFinal __instance) {
-            for (BossProperties metadata : DownfallCharBossApi.getBossProperties()) {
-                if (metadata.neowBossTakeTurnCallback != null) {
-                    metadata.neowBossTakeTurnCallback.accept(__instance);
-                }
-            }
+            DownfallCharBossApi.triggerNeowBossTakeTurn(downfallMod.Act1BossFaced, __instance);
+            DownfallCharBossApi.triggerNeowBossTakeTurn(downfallMod.Act2BossFaced, __instance);
+            DownfallCharBossApi.triggerNeowBossTakeTurn(downfallMod.Act3BossFaced, __instance);
         }
 
         private static class Locator extends SpireInsertLocator {

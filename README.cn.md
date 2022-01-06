@@ -38,7 +38,7 @@
                         // 时机是所有Action放入队列之后，涅奥设置下次行动之前。
                         // 你可以加入额外Action来控制涅奥的行动。
                         // 注意：
-                        // 所有已注册的角色首领的回调都会被调用。
+                        // 所有当前游戏中打败的角色首领的回调都会被调用。
                         // 先检查涅奥是否有相应能力或者Buff，再加入额外Action。
                         .setNeowBossTakeTurnCallback(CharBossBladeGunner::neowBossTakeTurn)
     
@@ -81,6 +81,21 @@
     ```
 
 ## 其他API
+
+*   `removeCharBoss`
+
+    移除角色首领。它不再会出现在战斗中。你也可以移除原版崩坠的Boss。要注意崩坠至少需要4个首领（3章 + 斗兽场事件1个）。
+    如果你开始游戏时首领不足4个，会抛出异常并使游戏闪退。
+    
+    ```java
+    @SpireInitializer
+    public class YourMod {
+        public static void initialize() {
+            DownfallCharBossApi.removeCharBoss(CharBossIronclad.ID);
+            DownfallCharBossApi.removeCharBoss(YourBoss.ID);
+        }
+    }
+    ```
 
 *   `excludeCardColorInSneckoMod`
 

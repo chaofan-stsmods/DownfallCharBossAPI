@@ -7,7 +7,7 @@
     <groupId>downfallcharbossapi</groupId>
     <artifactId>downfallcharbossapi</artifactId>
     <name>Downfall Char Boss API</name>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
     <description>Add ability to add new bosses to downfall.</description>
 
     <properties>

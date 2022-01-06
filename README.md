@@ -38,7 +38,7 @@ This API can help you insert your character as a boss to Downfall.
                         // after all Actions are queued, before Neow set next move.
                         // You can add additional Actions when Neow takes turn.
                         // NOTICE:
-                        // Callback of ALL registered bosses will be called.
+                        // Callback of ALL bosses killed in current game will be called.
                         // Check whether Neow has your power before adding Actions.
                         .setNeowBossTakeTurnCallback(CharBossBladeGunner::neowBossTakeTurn)
     
@@ -81,6 +81,22 @@ This API can help you insert your character as a boss to Downfall.
     ```
 
 ## Other APIs
+
+*   `removeCharBoss`
+
+    Remove a char boss. It won't appear in battles. You may remove bosses from Downfall as well. Note that Downfall
+    requires at least 4 bosses (3 acts + 1 Colosseum event). An error will be thrown if you start a game with
+    less than 4 bosses registered.
+    
+    ```java
+    @SpireInitializer
+    public class YourMod {
+        public static void initialize() {
+            DownfallCharBossApi.removeCharBoss(CharBossIronclad.ID);
+            DownfallCharBossApi.removeCharBoss(YourBoss.ID);
+        }
+    }
+    ```
 
 *   `excludeCardColorInSneckoMod`
 
