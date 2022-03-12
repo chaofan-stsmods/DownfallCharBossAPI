@@ -23,6 +23,7 @@ import javassist.CtBehavior;
 import javassist.expr.ExprEditor;
 import javassist.expr.MethodCall;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.function.Predicate;
 
@@ -90,7 +91,12 @@ public class InsertCharBossPatches {
     public static class NeowRezActionPatch {
         public static void Postfix(NeowRezAction __instance, String name) {
             if (DownfallCharBossApi.hasRegisteredBoss(name)) {
-                __instance.cB = DownfallCharBossApi.createCharBossInstance(name);
+                try {
+                    Field cB = __instance.getClass().getField("cB");
+                    cB.set(__instance, DownfallCharBossApi.createCharBossInstance(name));
+                } catch (NoSuchFieldException | IllegalAccessException e) {
+                    DownfallCharBossApi.logger.warn("Failed to add char boss to NeowRezAction.rezBoss.", e);
+                }
             }
         }
     }

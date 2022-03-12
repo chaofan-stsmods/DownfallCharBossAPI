@@ -7,6 +7,7 @@ import charbosses.bosses.Ironclad.CharBossIronclad;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.evacipated.cardcrawl.modthespire.lib.SpireInitializer;
 import com.megacrit.cardcrawl.cards.AbstractCard;
+import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import downfall.monsters.NeowBossFinal;
 import downfallcharbossapi.patches.BossRelicEnergyPatches;
 import org.apache.logging.log4j.LogManager;
@@ -50,7 +51,7 @@ public class DownfallCharBossApi implements PreRenderSubscriber {
             throw new IllegalArgumentException("id is null");
         }
 
-        logger.info("removeCharBoss, {}", id);
+        logger.info("removeCharBoss {}", id);
 
         removedBosses.add(id);
         bossModifyRecords.add(String.format("[%s] removeCharBoss %s", getCallerMethod(), id));
@@ -152,7 +153,7 @@ public class DownfallCharBossApi implements PreRenderSubscriber {
         }
     }
 
-    private static String getCallerMethod() {
+    static String getCallerMethod() {
         StackTraceElement[] stackTraceElements = Thread.currentThread().getStackTrace();
         return stackTraceElements.length >= 3 ? stackTraceElements[3].toString() : stackTraceElements[stackTraceElements.length - 1].toString();
     }
